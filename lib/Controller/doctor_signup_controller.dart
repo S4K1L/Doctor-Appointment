@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctor_appointment/Routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -19,6 +20,7 @@ class DoctorSignupController extends GetxController{
   // Observing text controllers using .obs
   final nameController = TextEditingController().obs;
   final phoneController = TextEditingController().obs;
+  final specialityController = TextEditingController().obs;
   final emailController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
 
@@ -39,6 +41,7 @@ class DoctorSignupController extends GetxController{
           phone: phoneController.value.text,
           email: email,
           password: password,
+          speciality: specialityController.value.text,
           profileImage: '',
         );
 
@@ -46,12 +49,17 @@ class DoctorSignupController extends GetxController{
           'name': userModel.value.name,
           'phone': userModel.value.phone,
           'email': userModel.value.email,
+          'speciality': userModel.value.speciality,
+          'uid': user.uid,
           'profileImage': userModel.value.profileImage,
           'role': 'doctor',
+          'rating': '0',
         });
 
         // Success message
         Get.snackbar('Registration Successful', 'Welcome to Doctor Appointment');
+        Get.toNamed(RoutePath.doctorBottomBar);
+        Get.clearRouteTree();
         return userModel.value;
       } else {
         Get.snackbar('Registration Failed!', 'Try again!');

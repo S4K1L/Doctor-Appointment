@@ -38,8 +38,8 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                     children: [
                       Form(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 30),
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, top: 30,bottom: 10),
                           child: Column(
                             children: [
                               inputField('Full Name', Icons.person,
@@ -59,7 +59,6 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
                       CustomButton(
                         title: 'Signup',
                         onPress: () {

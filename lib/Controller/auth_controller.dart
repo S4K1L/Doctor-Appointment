@@ -5,18 +5,57 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
-  // Fire store instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //model
+  // Observable list to hold doctor data
+  var doctors = <UserModel>[].obs;
+
+  // Observable for currently logged-in user
   var userModel = UserModel().obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchCurrentUser();  // Fetch current user when controller initializes
+    fetchDoctors();      // Fetch doctors when controller initializes
+  }
+
+  // Fetch currently logged-in user data from Firestore
+  Future<void> fetchCurrentUser() async {
+    try {
+      User? user = _auth.currentUser; // Get the currently logged-in user
+
+      if (user != null) {
+        // Fetch user document from Firestore by UID
+        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+
+        if (userDoc.exists) {
+          userModel.value = UserModel(
+            name: userDoc['name'],
+            email: userDoc['email'],
+            phone: userDoc['phone'],
+            profileImage: userDoc['profileImage'],
+            speciality: userDoc['speciality'] ?? '',  // Assuming speciality is for doctors
+            rating: userDoc['rating'] != null ? userDoc['rating'].toDouble() : 0.0,
+          );
+        }else{
+          print('User Model Error');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error fetching current user: $e");
+      }
+    }
+  }
 
   // Logout method
   Future<void> logout() async {
     try {
-      if (FirebaseAuth.instance.currentUser != null) {
-        await FirebaseAuth.instance.signOut();
+      if (_auth.currentUser != null) {
+        await _auth.signOut();
+        userModel.value = UserModel();  // Clear user data on logout
       } else {
         if (kDebugMode) {
           print("No user is currently signed in");
@@ -30,44 +69,27 @@ class AuthController extends GetxController {
     }
   }
 
-  // Fetch user data from Fire store
-  Future<void> fetchUserData(String userId) async {
+  // Fetch all doctors where role = doctor
+  Future<void> fetchDoctors() async {
     try {
-      // Fetch the document with the user's ID
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+      QuerySnapshot snapshot = await _firestore
+          .collection('users')
+          .where('role', isEqualTo: 'doctor')
+          .get();
 
-      if (userDoc.exists) {
-        // Extract user data from Firestore and update the userModel
-        userModel.value = UserModel(
-          name: userDoc['name'],
-          phone: userDoc['phone'],
-          email: userDoc['email'],
-          password: userDoc['password'],
-          profileImage: userDoc['profileImage'],
+      doctors.value = snapshot.docs.map((doc) {
+        return UserModel(
+          name: doc['name'],
+          phone: doc['phone'],
+          email: doc['email'],
+          profileImage: doc['profileImage'],
+          speciality: doc['speciality'],
+          rating: doc['rating'] != null ? doc['rating'].toDouble() : 0.0,
         );
-        if (kDebugMode) {
-          print('User data fetched successfully.');
-        }
-      } else {
-        if (kDebugMode) {
-          print('No user found with the given ID.');
-        }
-      }
+      }).toList();
     } catch (e) {
       if (kDebugMode) {
-        print('Error fetching user data: $e');
-      }
-    }
-  }
-
-  // Example function to fetch the currently logged-in user's data
-  Future<void> fetchCurrentUserData() async {
-    User? currentUser = _auth.currentUser;
-    if (currentUser != null) {
-      await fetchUserData(currentUser.uid);
-    } else {
-      if (kDebugMode) {
-        print('No user is currently logged in.');
+        print("Error fetching doctors: $e");
       }
     }
   }

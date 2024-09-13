@@ -19,34 +19,37 @@ class LoginController extends GetxController{
   // Observing text controllers using .obs
   final emailController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
+  final formKey = GlobalKey<FormState>().obs;
 
   // Login method
   Future<UserModel?> login(String email, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      final user = result.user;
+      if(formKey.value.currentState!.validate())
+        {
+          UserCredential result = await _auth.signInWithEmailAndPassword(
+              email: email, password: password);
+          final user = result.user;
 
-      if (user != null) {
-        // Assigning user data from Firebase
-        userModel.value = UserModel(
-          phone: user.phoneNumber ?? '',
-          name: user.displayName ?? '',
-          email: email,
-          password: password,
-          profileImage: user.photoURL ?? '',
-        );
-        route();
-        return userModel.value;
-      } else {
-        Get.snackbar('Login Fail!', 'Try Again!',backgroundColor: kPrimaryColor,colorText: kWhiteColor);
-        if (kDebugMode) {
-          print("User is null");
-        }
-        return null;
+          if (user != null) {
+            userModel.value = UserModel(
+              phone: user.phoneNumber ?? '',
+              name: user.displayName ?? '',
+              email: email,
+              password: password,
+              profileImage: user.photoURL ?? '',
+            );
+            route();
+            return userModel.value;
+          } else {
+            Get.snackbar('Login Fail!', 'Try Again!',backgroundColor: kPrimaryColor,colorText: kWhiteColor,snackPosition: SnackPosition.BOTTOM);
+            return null;
+          }
+        }else{
+        Get.snackbar('Login Fail!', 'Check you email and password!',backgroundColor: kPrimaryColor,colorText: kWhiteColor,snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
       if (kDebugMode) {
+        Get.snackbar('Login Fail!', 'Check you email and password!',backgroundColor: kPrimaryColor,colorText: kWhiteColor,snackPosition: SnackPosition.BOTTOM);
         print("Error in login: $e");
       }
       return null;
@@ -63,19 +66,19 @@ class LoginController extends GetxController{
     if (documentSnapshot.exists) {
       String userType = documentSnapshot.get('role');
       if (userType == "user") {
-        Get.snackbar('Logged in as User', 'Welcome to Doctor Appointment',backgroundColor: kPrimaryColor,colorText: kWhiteColor);
+        Get.snackbar('Logged in as User', 'Welcome to Doctor Appointment',backgroundColor: kPrimaryColor,colorText: kWhiteColor,snackPosition: SnackPosition.BOTTOM);
         Get.toNamed(RoutePath.userBottomBar);
       }
       else if (userType == "doctor") {
-        Get.snackbar('Logged in as Doctor', 'Welcome to Doctor Appointment',backgroundColor: kPrimaryColor,colorText: kWhiteColor);
+        Get.snackbar('Logged in as Doctor', 'Welcome to Doctor Appointment',backgroundColor: kPrimaryColor,colorText: kWhiteColor,snackPosition: SnackPosition.BOTTOM);
         Get.toNamed(RoutePath.doctorBottomBar);
       }
       else {
-        Get.snackbar('Try again', 'Some error in logging in!',backgroundColor: kPrimaryColor,colorText: kWhiteColor);
+        Get.snackbar('Try again', 'Some error in logging in!',backgroundColor: kPrimaryColor,colorText: kWhiteColor,snackPosition: SnackPosition.BOTTOM);
 
       }
     } else {
-      Get.snackbar('Try again', 'Some error in logging in!',backgroundColor: kPrimaryColor,colorText: kWhiteColor);
+      Get.snackbar('Try again', 'Some error in logging in!',backgroundColor: kPrimaryColor,colorText: kWhiteColor,snackPosition: SnackPosition.BOTTOM);
 
     }
   }
@@ -87,15 +90,7 @@ class LoginController extends GetxController{
       if (kDebugMode) {
         print('Error resetting password: $error');
       }
-      rethrow;  // rethrow error if you need further handling
+      rethrow;
     }
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    emailController.value.clear();
-    passwordController.value.clear();
   }
 }

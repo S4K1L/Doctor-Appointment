@@ -33,9 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       topRight: Radius.circular(32),
                     ),
                     color: kWhiteColor),
-                child: Obx(()=>Column(
+                child: Column(
                   children: [
-                    Form(
+                    Obx(()=>Form(
+                      key: loginController.formKey.value,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 30),
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                       ),
-                    ),
+                    ),),
                     CustomButton(
                       title: 'Login',
                       onPress: () {
@@ -60,11 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           loginController.emailController.value.text,
                           loginController.passwordController.value.text,
                         );
-                        loginController.dispose();
                       },
                     ),
                   ],
-                ),),
+                ),
               ),
             ],
           ),
@@ -96,6 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: 'Enter your password',
         border: const OutlineInputBorder(),
       ),
+      validator: (value){
+        if(controller.value.text.isEmpty){
+          return 'incorrect password!';
+        }
+      },
     );
   }
 
@@ -107,11 +112,10 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: 'Enter your email',
         border: OutlineInputBorder(),
       ),
-      validator: (value) {
-        if (value == null) {
-          return 'Enter your email';
+      validator: (value){
+        if(controller.value.text.isEmpty){
+          return 'Fill the email';
         }
-        return null;
       },
     );
   }

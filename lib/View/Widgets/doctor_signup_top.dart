@@ -14,7 +14,7 @@ class DoctorSignupTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 2.3,
+      height: MediaQuery.of(context).size.height / 2.7,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
@@ -50,7 +50,7 @@ class DoctorSignupTop extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 1.5,
           ),
           const Text(
-            'Register now',
+            'Register now as a Doctor',
             style: TextStyle(color: kWhiteColor, fontSize: 22),
           ),
           const Text(

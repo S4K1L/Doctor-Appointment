@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Routes/routes.dart';
@@ -25,7 +26,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: AnimatedSplashScreen(
+        splash: 'assets/images/logo.png',
+        splashIconSize: 120,
+        nextScreen: const LoginScreen(),
+        splashTransition: SplashTransition.fadeTransition,
+      ),
       initialRoute: RoutePath.login,
       getPages: pages,
     );

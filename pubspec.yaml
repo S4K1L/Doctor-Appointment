@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^1.1.2
   cached_network_image: ^3.2.3
   intl:
+  animated_splash_screen:
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../../Theme/colors.dart';
 import '../Pages/Doctor_Panel/Doctor_Home_Screen/doctor_homeScreen.dart';
+import '../Pages/Doctor_Panel/Doctor_Request/doctor_request.dart';
+import '../Pages/Doctor_Panel/Doctor_Schedule/doctor_schedule.dart';
+import '../Pages/Doctor_Panel/Doctor_Setting/doctor_setting.dart';
 
 class DoctorBottomBar extends StatefulWidget {
   const DoctorBottomBar({super.key});
@@ -15,9 +18,9 @@ class _BottomBarState extends State<DoctorBottomBar> {
   int indexColor = 0;
   List<Widget> screens = [
     const DoctorHomeScreen(),
-    const DoctorHomeScreen(),
-    const DoctorHomeScreen(),
-    const DoctorHomeScreen()
+    const DoctorRequest(),
+    const DoctorSchedule(),
+    const DoctorSetting()
   ];
 
   @override

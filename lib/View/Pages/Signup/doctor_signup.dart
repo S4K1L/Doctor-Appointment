@@ -13,7 +13,8 @@ class DoctorSignupScreen extends StatefulWidget {
 }
 
 class _DoctorSignupScreenState extends State<DoctorSignupScreen> {
-  DoctorSignupController doctorSignupController = Get.put(DoctorSignupController());
+  DoctorSignupController doctorSignupController =
+      Get.put(DoctorSignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,43 +34,50 @@ class _DoctorSignupScreenState extends State<DoctorSignupScreen> {
                       topRight: Radius.circular(32),
                     ),
                     color: kWhiteColor),
-                child: Column(
-                  children: [
-                    Form(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 30),
-                        child: Column(
-                          children: [
-                            inputField('Full Name', Icons.person,
-                                doctorSignupController.nameController.value),
-                            const SizedBox(height: 30),
-                            inputField('Contact number', Icons.phone,
-                                doctorSignupController.phoneController.value),
-                            const SizedBox(height: 30),
-                            inputField('Enter your email', Icons.email,
-                                doctorSignupController.emailController.value),
-                            const SizedBox(height: 30),
-                            Obx(
-                                  () => passwordField(
-                                    doctorSignupController.passwordController.value,
-                                    doctorSignupController.showPassword.value,
+                child: Obx(
+                  () => Column(
+                    children: [
+                      Form(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, top: 30, bottom: 10),
+                          child: Column(
+                            children: [
+                              inputField('Full Name', Icons.person,
+                                  doctorSignupController.nameController.value),
+                              const SizedBox(height: 30),
+                              inputField(
+                                  'Speciality',
+                                  Icons.medical_information,
+                                  doctorSignupController
+                                      .specialityController.value),
+                              const SizedBox(height: 30),
+                              inputField('Contact number', Icons.phone,
+                                  doctorSignupController.phoneController.value),
+                              const SizedBox(height: 30),
+                              inputField('Enter your email', Icons.email,
+                                  doctorSignupController.emailController.value),
+                              const SizedBox(height: 30),
+                              passwordField(
+                                doctorSignupController.passwordController.value,
+                                doctorSignupController.showPassword.value,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    CustomButton(
-                      title: 'Signup',
-                      onPress: () {
-                        doctorSignupController.doctorSignup(
-                          doctorSignupController.emailController.value.text,
-                          doctorSignupController.passwordController.value.text,
-                        );
-                      },
-                    ),
-                  ],
+                      CustomButton(
+                        title: 'Signup',
+                        onPress: () {
+                          doctorSignupController.doctorSignup(
+                            doctorSignupController.emailController.value.text,
+                            doctorSignupController
+                                .passwordController.value.text,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
