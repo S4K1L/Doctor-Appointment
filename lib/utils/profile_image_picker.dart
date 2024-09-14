@@ -67,8 +67,8 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
         children: [
           _image != null
               ? CircleAvatar(
-            minRadius: 30.0,
-            maxRadius: 30.0,
+            minRadius: 40.0,
+            maxRadius: 40.0,
             backgroundImage: MemoryImage(_image!),
           )
               : FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -82,8 +82,8 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
                 if (snapshot.data!.exists && snapshot.data!.data()!.containsKey('profileImage')) {
                   String? imageUrl = snapshot.data!.data()!['profileImage'];
                   return CircleAvatar(
-                    minRadius: 30.0,
-                    maxRadius: 30.0,
+                    minRadius: 40.0,
+                    maxRadius: 40.0,
                     backgroundImage: imageUrl != null
                         ? NetworkImage(imageUrl)
                         : const NetworkImage(
@@ -92,8 +92,8 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
                 } else {
                   // Handle the case when 'profileImage' field doesn't exist or is null
                   return const CircleAvatar(
-                    minRadius: 30.0,
-                    maxRadius: 30.0,
+                    minRadius: 40.0,
+                    maxRadius: 40.0,
                     backgroundImage: NetworkImage(
                       'https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp',
                     ),

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor_appointment/Model/user_model.dart';
+import 'package:doctor_appointment/Routes/routes.dart';
+import 'package:doctor_appointment/View/Pages/Login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -35,6 +37,7 @@ class AuthController extends GetxController {
             name: userDoc['name'],
             email: userDoc['email'],
             phone: userDoc['phone'],
+            password: userDoc['password'],
             profileImage: userDoc['profileImage'],
             speciality: userDoc['speciality'] ?? '',  // Assuming speciality is for doctors
             rating: userDoc['rating'] != null ? userDoc['rating'].toDouble() : 0.0,
@@ -56,6 +59,7 @@ class AuthController extends GetxController {
       if (_auth.currentUser != null) {
         await _auth.signOut();
         userModel.value = UserModel();  // Clear user data on logout
+        Get.to(()=> const LoginScreen(),transition: Transition.rightToLeft);
       } else {
         if (kDebugMode) {
           print("No user is currently signed in");

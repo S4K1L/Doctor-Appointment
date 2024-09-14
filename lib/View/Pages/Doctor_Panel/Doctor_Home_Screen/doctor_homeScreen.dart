@@ -43,7 +43,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     fontWeight: FontWeight.w700),
               ),
             ),
-            const SymptomList(),
+            SymptomList(),
             const Padding(
               padding: EdgeInsets.only(top: 26, left: 10, bottom: 10),
               child: Text(

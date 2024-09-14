@@ -61,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           loginController.emailController.value.text,
                           loginController.passwordController.value.text,
                         );
+                        loginController.dispose();
                       },
                     ),
                   ],
