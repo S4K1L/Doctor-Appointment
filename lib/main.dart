@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
-        splash: 'assets/images/logo.png',
+        splash: 'assets/images/splash.png',
         splashIconSize: 120,
         nextScreen: const LoginScreen(),
         splashTransition: SplashTransition.fadeTransition,

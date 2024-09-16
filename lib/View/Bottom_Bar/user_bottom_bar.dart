@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../Theme/colors.dart';
-import '../Pages/Doctor_Panel/Doctor_Home_Screen/doctor_homeScreen.dart';
+import '../Pages/Doctor_Panel/Doctor_Request/doctor_request.dart';
+import '../Pages/Doctor_Panel/Doctor_Setting/doctor_setting.dart';
+import '../Pages/Home/home.dart';
+import '../Pages/Schedule/schedule.dart';
 
 class UserBottomBar extends StatefulWidget {
   const UserBottomBar({super.key});
@@ -14,10 +16,10 @@ class UserBottomBar extends StatefulWidget {
 class _BottomBarState extends State<UserBottomBar> {
   int indexColor = 0;
   List<Widget> screens = [
-    const DoctorHomeScreen(),
-    const DoctorHomeScreen(),
-    const DoctorHomeScreen(),
-    const DoctorHomeScreen()
+    const HomeScreen(),
+    DoctorRequest(),
+    ScheduleScreen(),
+    const DoctorSetting(),
   ];
 
   @override

@@ -1,6 +1,7 @@
 import 'package:doctor_appointment/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Controller/login_controller.dart';
 import '../../Widgets/custom_button.dart';
 import '../../Widgets/forgot_passsword.dart';
@@ -15,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginController loginController = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,35 +37,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: kWhiteColor),
                 child: Column(
                   children: [
-                    Obx(()=>Form(
-                      key: loginController.formKey.value,
+                    Form(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 30),
                         child: Column(
                           children: [
                             const SizedBox(height: 10),
-                            emailForm(loginController.emailController.value),
+                            Obx(() => emailForm(
+                                loginController.emailController.value)),
                             const SizedBox(height: 30),
-                            passwordField(
-                              loginController.passwordController.value,
-                              loginController.showPassword.value,
+                            Obx(() => passwordField(
+                                loginController.passwordController.value,
+                                loginController.showPassword.value)),
+                            ForgotPassword(
+                              onPress: () {},
                             ),
-                            ForgotPassword(onPress: (){},),
                           ],
                         ),
                       ),
-                    ),),
-                    CustomButton(
-                      title: 'Login',
-                      onPress: () {
-                        loginController.login(
-                          loginController.emailController.value.text,
-                          loginController.passwordController.value.text,
-                        );
-                        loginController.dispose();
-                      },
                     ),
+                    Obx(()=> Skeletonizer(
+                      enabled: loginController.isLoading.value,
+                      enableSwitchAnimation: true,
+                      child: CustomButton(
+                        title: 'Login',
+                        onPress: () {
+                          loginController.login(
+                            loginController.emailController.value.text,
+                            loginController.passwordController.value.text,
+                          );
+                        },
+                      ),
+                    ),)
                   ],
                 ),
               ),
@@ -86,9 +92,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         suffixIcon: IconButton(
             onPressed: () {
-              showPassword
-                  ? loginController.showPassword.value = false
-                  : loginController.showPassword.value = true;
+              loginController.showPassword.value =
+                  !loginController.showPassword.value;
             },
             icon: Icon(
               showPassword ? Icons.visibility_off : Icons.visibility,
@@ -97,9 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: 'Enter your password',
         border: const OutlineInputBorder(),
       ),
-      validator: (value){
-        if(controller.value.text.isEmpty){
-          return 'incorrect password!';
+      validator: (value) {
+        if (controller.value.text.isEmpty) {
+          return 'Incorrect password!';
         }
       },
     );
@@ -113,8 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: 'Enter your email',
         border: OutlineInputBorder(),
       ),
-      validator: (value){
-        if(controller.value.text.isEmpty){
+      validator: (value) {
+        if (controller.value.text.isEmpty) {
           return 'Fill the email';
         }
       },

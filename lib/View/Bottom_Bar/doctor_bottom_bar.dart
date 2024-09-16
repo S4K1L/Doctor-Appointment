@@ -1,10 +1,10 @@
+import 'package:doctor_appointment/View/Pages/Schedule/schedule.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Theme/colors.dart';
-import '../Pages/Doctor_Panel/Doctor_Home_Screen/doctor_homeScreen.dart';
 import '../Pages/Doctor_Panel/Doctor_Request/doctor_request.dart';
-import '../Pages/Doctor_Panel/Doctor_Schedule/doctor_schedule.dart';
 import '../Pages/Doctor_Panel/Doctor_Setting/doctor_setting.dart';
+import '../Pages/Home/home.dart';
 
 class DoctorBottomBar extends StatefulWidget {
   const DoctorBottomBar({super.key});
@@ -16,10 +16,10 @@ class DoctorBottomBar extends StatefulWidget {
 class _BottomBarState extends State<DoctorBottomBar> {
   int indexColor = 0;
   List<Widget> screens = [
-    const DoctorHomeScreen(),
-    const DoctorRequest(),
-    const DoctorSchedule(),
-    const DoctorSetting()
+    const HomeScreen(),
+    DoctorRequest(),
+    ScheduleScreen(),
+    const DoctorSetting(),
   ];
 
   @override
@@ -35,8 +35,7 @@ class _BottomBarState extends State<DoctorBottomBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildBottomNavigationItem(Icons.home_filled, 'Home', 0),
-            _buildBottomNavigationItem(
-                CupertinoIcons.chat_bubble_fill, 'Message', 1),
+            _buildBottomNavigationItem(Icons.spatial_audio, 'Patient', 1),
             _buildBottomNavigationItem(
                 Icons.calendar_month_outlined, 'Schedule', 2),
             _buildBottomNavigationItem(Icons.settings, 'Setting', 3),

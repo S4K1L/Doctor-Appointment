@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor_appointment/Model/user_model.dart';
-import 'package:doctor_appointment/Routes/routes.dart';
 import 'package:doctor_appointment/View/Pages/Login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -12,8 +11,6 @@ class AuthController extends GetxController {
 
   // Observable list to hold doctor data
   var doctors = <UserModel>[].obs;
-
-  // Observable for currently logged-in user
   var userModel = UserModel().obs;
 
   @override
@@ -37,6 +34,11 @@ class AuthController extends GetxController {
             name: userDoc['name'],
             email: userDoc['email'],
             phone: userDoc['phone'],
+            compensation: userDoc['compensation'],
+            bio: userDoc['bio'],
+            uid: userDoc['uid'],
+            address: userDoc['address'],
+            hospital: userDoc['hospital'],
             password: userDoc['password'],
             profileImage: userDoc['profileImage'],
             speciality: userDoc['speciality'] ?? '',  // Assuming speciality is for doctors
@@ -58,7 +60,7 @@ class AuthController extends GetxController {
     try {
       if (_auth.currentUser != null) {
         await _auth.signOut();
-        userModel.value = UserModel();  // Clear user data on logout
+        userModel.value = UserModel();
         Get.to(()=> const LoginScreen(),transition: Transition.rightToLeft);
       } else {
         if (kDebugMode) {
@@ -86,6 +88,12 @@ class AuthController extends GetxController {
           name: doc['name'],
           phone: doc['phone'],
           email: doc['email'],
+          password: doc['password'],
+          compensation: doc['compensation'],
+          bio: doc['bio'],
+          uid: doc['uid'],
+          address: doc['address'],
+          hospital: doc['hospital'],
           profileImage: doc['profileImage'],
           speciality: doc['speciality'],
           rating: doc['rating'] != null ? doc['rating'].toDouble() : 0.0,

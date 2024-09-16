@@ -8,19 +8,19 @@ import 'package:get/get.dart';
 import '../Model/user_model.dart';
 
 class DoctorSignupController extends GetxController{
-  // Fire store instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //model
   var userModel = UserModel().obs;
-
   RxBool showPassword = true.obs;
 
-  // Observing text controllers using .obs
   final nameController = TextEditingController().obs;
   final phoneController = TextEditingController().obs;
   final specialityController = TextEditingController().obs;
+  final compensationController = TextEditingController().obs;
+  final bioController = TextEditingController().obs;
+  final hospitalController = TextEditingController().obs;
+  final addressController = TextEditingController().obs;
   final emailController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
 
@@ -39,6 +39,10 @@ class DoctorSignupController extends GetxController{
         userModel.value = UserModel(
           name: nameController.value.text,
           phone: phoneController.value.text,
+          compensation: compensationController.value.text,
+          bio: bioController.value.text,
+          hospital: hospitalController.value.text,
+          address: addressController.value.text,
           email: email,
           password: password,
           speciality: specialityController.value.text,
@@ -49,11 +53,16 @@ class DoctorSignupController extends GetxController{
           'name': userModel.value.name,
           'phone': userModel.value.phone,
           'email': userModel.value.email,
+          'password': userModel.value.password,
           'speciality': userModel.value.speciality,
+          'compensation': userModel.value.compensation,
+          'bio': userModel.value.bio,
+          'hospital': userModel.value.hospital,
+          'address': userModel.value.address,
           'uid': user.uid,
           'profileImage': userModel.value.profileImage,
           'role': 'doctor',
-          'rating': '0',
+          'rating': 0.0,
         });
 
         // Success message

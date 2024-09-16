@@ -23,12 +23,12 @@ final pages = [
   GetPage(
     name: RoutePath.doctorBottomBar,
     page: () => const DoctorBottomBar(),
-    transition: Transition.circularReveal,
+    transition: Transition.upToDown,
     transitionDuration: const Duration(seconds: 2),
   ),
   GetPage(
       name: RoutePath.userBottomBar,
       page: () => const UserBottomBar(),
-      transition: Transition.circularReveal,
+      transition: Transition.upToDown,
       transitionDuration: const Duration(seconds: 2)),
 ];

@@ -15,25 +15,38 @@ class HomeTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Obx(
-            () => Row(
+    return Container(
+      height: MediaQuery.of(context).size.height/6,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(16),
+          bottomLeft: Radius.circular(16),
+        ),
+        color: kPrimaryColor
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 50,left: 20,right: 20),
+        child: Row(
           children: [
             const ProfileImagePicker(),
             Padding(
               padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  const Text(
-                    'Hi, ',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    authController.userModel.value.name ?? "Loading...",
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                ],
+              child: Flexible(
+                child: Row(
+                  children: [
+                    const Text(
+                      'Hi, ',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500,color: kWhiteColor),
+                    ),
+                    Obx(
+                      () => Text(
+                        authController.userModel.value.name ?? "Loading...",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500,color: kWhiteColor),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const Spacer(),

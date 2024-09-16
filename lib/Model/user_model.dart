@@ -5,6 +5,10 @@ class UserModel {
   final String? uid;
   final String? speciality;
   final String? password;
+  final String? compensation;
+  final String? bio;
+  final String? hospital;
+  final String? address;
   final double? rating;
   final String? profileImage;
 
@@ -17,5 +21,9 @@ class UserModel {
     this.password,
     this.profileImage,
     this.rating,
+    this.compensation,
+    this.bio,
+    this.hospital,
+    this.address,
   });
 }

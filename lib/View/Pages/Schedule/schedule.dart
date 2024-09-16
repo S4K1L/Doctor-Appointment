@@ -1,22 +1,23 @@
-import 'package:doctor_appointment/Controller/appointment_controller.dart';
-import 'package:doctor_appointment/Model/appointment_model.dart';
 import 'package:doctor_appointment/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../Controller/appointment_controller.dart';
+import '../../../Model/appointment_model.dart';
 
-class DoctorRequest extends StatelessWidget {
-  DoctorRequest({super.key});
+class ScheduleScreen extends StatelessWidget {
+  ScheduleScreen({super.key});
+
   final AppointmentController appointmentController = Get.put(AppointmentController());
 
   @override
   Widget build(BuildContext context) {
     // Fetch appointments when the screen is built
-    appointmentController.fetchRequest();
+    appointmentController.fetchAppointments();
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("Patient"),
+        title: const Text("Schedule"),
       ),
       body: Column(
         children: [
@@ -52,17 +53,16 @@ class DoctorRequest extends StatelessWidget {
             child: Obx(() {
               var appointments = _getAppointments();
               if (appointments.isEmpty) {
-                return const Center(child: Text("No Request Available"));
+                return const Center(child: Text("No Appointments Available"));
               }
               return ListView.builder(
                 itemCount: appointments.length,
                 itemBuilder: (context, index) {
                   var appointment = appointments[index];
                   return _buildAppointmentTile(
-                    compensation: appointment.doctorCompensation,
-                    userName: appointment.userName,
-                    userImage: appointment.userImage,
-                    userPhone: appointment.userPhone,
+                    doctorName: appointment.doctorName,
+                    doctorImage: appointment.doctorImage,
+                    doctorSpecialty: appointment.doctorSpeciality,
                     date: appointment.bookingDate,
                     time: appointment.bookingTime,
                     status: appointment.status,
@@ -120,10 +120,9 @@ class DoctorRequest extends StatelessWidget {
 
   // Method to build appointment tile
   Widget _buildAppointmentTile({
-    required String userName,
-    required String compensation,
-    required String userImage,
-    required String userPhone,
+    required String doctorName,
+    required String doctorImage,
+    required String doctorSpecialty,
     required String date,
     required String time,
     required String status,
@@ -139,41 +138,28 @@ class DoctorRequest extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "About Patient",
+                "About Doctor",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(userImage),
+                    backgroundImage: NetworkImage(doctorImage),
                     radius: 30,
                   ),
                   const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            userName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(width: 130,),
-                          Text(
-                            '\$$compensation',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: kPrimaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        doctorName,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      Text(userPhone),
+                      Text(doctorSpecialty),
                     ],
                   ),
                 ],
@@ -232,7 +218,7 @@ class DoctorRequest extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Status', style: TextStyle(color: kWhiteColor),),
+                    child: const Text('Reschedule', style: TextStyle(color: kWhiteColor),),
                   ),
                 ],
               ),
@@ -243,4 +229,3 @@ class DoctorRequest extends StatelessWidget {
     );
   }
 }
-

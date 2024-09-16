@@ -11,7 +11,7 @@ class SearchField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30 / 1.5),
       child: Material(
-        elevation: 2.0,
+        elevation: 10.0,
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         child: TextFormField(
           onChanged: onSearch,
