@@ -110,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (controller.value.text.isEmpty) {
           return 'Incorrect password!';
         }
+        return null;
       },
     );
   }
@@ -126,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (controller.value.text.isEmpty) {
           return 'Fill the email';
         }
+        return null;
       },
     );
   }
