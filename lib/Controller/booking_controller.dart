@@ -20,10 +20,11 @@ class BookingController extends GetxController {
       ) async {
     try {
       // Creating a document reference
-      DocumentReference docRef = _firestore.collection('patient').doc();
+      DocumentReference docRef = _firestore.collection('appointments').doc();
 
-      // Data to be uploaded to Firestore
+      // Data to be uploaded to Firestore, including the document ID (booking UID)
       Map<String, dynamic> bookingData = {
+        'bookingUid': docRef.id, // Include the generated document ID
         'doctorUid': doctorUid,
         'userUid': userUid,
         'doctorName': doctorName,
@@ -37,7 +38,7 @@ class BookingController extends GetxController {
         'doctorImage': doctorImage,
         'userImage': userImage,
         'status': 'Pending',
-        'createdAt': FieldValue.serverTimestamp(), // To track booking time
+        'createdAt': FieldValue.serverTimestamp(),
       };
 
       // Upload the data to Firestore

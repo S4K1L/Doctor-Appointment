@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../Model/user_model.dart';
+import '../Routes/routes.dart';
 
 class UserSignupController extends GetxController{
   // Fire store instance
@@ -34,6 +35,11 @@ class UserSignupController extends GetxController{
         // Create a UserModel object
         userModel.value = UserModel(
           name: nameController.value.text,
+          bio: '',
+          compensation: '',
+          hospital: '',
+          speciality: '',
+          address: '',
           phone: phoneController.value.text,
           email: email,
           password: password,
@@ -45,13 +51,21 @@ class UserSignupController extends GetxController{
           'phone': userModel.value.phone,
           'email': userModel.value.email,
           'password': userModel.value.password,
+          'speciality': userModel.value.speciality,
+          'compensation': userModel.value.compensation,
+          'bio': userModel.value.bio,
+          'hospital': userModel.value.hospital,
+          'address': userModel.value.address,
           'uid': user.uid,
           'profileImage': userModel.value.profileImage,
           'role': 'user',
+          'rating': 0.0,
         });
 
         // Success message
         Get.snackbar('Registration Successful', 'Welcome to Doctor Appointment');
+        Get.toNamed(RoutePath.userBottomBar);
+        Get.clearRouteTree();
         return userModel.value;
       } else {
         Get.snackbar('Registration Failed!', 'Try again!');

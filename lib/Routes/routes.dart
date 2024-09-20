@@ -15,6 +15,8 @@ final pages = [
   GetPage(
     name: RoutePath.login,
     page: () => const LoginScreen(),
+    transition: Transition.upToDown,
+    transitionDuration: const Duration(seconds: 2),
   ),
   GetPage(
     name: RoutePath.signup,

@@ -10,6 +10,7 @@ class Appointment {
   final String bookingDate;
   final String bookingTime;
   final String status;
+  final String bookingUid;
 
   Appointment({
     required this.doctorName,
@@ -23,11 +24,13 @@ class Appointment {
     required this.bookingDate,
     required this.bookingTime,
     required this.status,
+    required this.bookingUid,
   });
 
   // Factory constructor to create an Appointment object from Firestore document data
   factory Appointment.fromMap(Map<String, dynamic> data) {
     return Appointment(
+      bookingUid: data['bookingUid'] ?? '',
       doctorName: data['doctorName'] ?? '',
       userName: data['userName'] ?? '',
       doctorPhone: data['doctorPhone'] ?? '',

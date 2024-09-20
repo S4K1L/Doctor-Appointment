@@ -66,6 +66,8 @@ class DoctorRequest extends StatelessWidget {
                     date: appointment.bookingDate,
                     time: appointment.bookingTime,
                     status: appointment.status,
+                    appointmentId: appointment.bookingUid,
+                    context: context,
                   );
                 },
               );
@@ -118,7 +120,6 @@ class DoctorRequest extends StatelessWidget {
     }
   }
 
-  // Method to build appointment tile
   Widget _buildAppointmentTile({
     required String userName,
     required String compensation,
@@ -127,6 +128,8 @@ class DoctorRequest extends StatelessWidget {
     required String date,
     required String time,
     required String status,
+    required String appointmentId,
+    required BuildContext context,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -153,28 +156,29 @@ class DoctorRequest extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            userName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(width: 130,),
-                          Text(
-                            '\$$compensation',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: kPrimaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        userName,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(userPhone),
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 70),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        '\$$compensation',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -211,7 +215,7 @@ class DoctorRequest extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Handle Cancel
+                      appointmentController.cancelAppointment(appointmentId);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
@@ -224,7 +228,7 @@ class DoctorRequest extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Handle Reschedule
+                      appointmentController.showStatusMenu(context, appointmentId, status);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -232,7 +236,10 @@ class DoctorRequest extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Status', style: TextStyle(color: kWhiteColor),),
+                    child: const Text(
+                      'Status',
+                      style: TextStyle(color: kWhiteColor),
+                    ),
                   ),
                 ],
               ),
@@ -243,4 +250,3 @@ class DoctorRequest extends StatelessWidget {
     );
   }
 }
-

@@ -6,6 +6,7 @@ import '../../../Controller/login_controller.dart';
 import '../../Widgets/custom_button.dart';
 import '../../Widgets/forgot_passsword.dart';
 import '../../Widgets/login_top.dart';
+import '../Forgot_Password/forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,7 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 loginController.passwordController.value,
                                 loginController.showPassword.value)),
                             ForgotPassword(
-                              onPress: () {},
+                              onPress: () {
+                                Get.to(()=> const ForgotPasswordScreen(),transition: Transition.downToUp,
+                                  duration: const Duration(seconds: 2),);
+                              },
                             ),
                           ],
                         ),

@@ -3,8 +3,6 @@ import 'package:doctor_appointment/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils/profile_image_picker.dart';
-
 class SettingTop extends StatelessWidget {
   const SettingTop({
     super.key,
@@ -19,20 +17,21 @@ class SettingTop extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 2.6,
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(16),
-            bottomLeft: Radius.circular(16),
-          ),
-          color: kPrimaryColor),
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(16),
+          bottomLeft: Radius.circular(16),
+        ),
+        color: kPrimaryColor,
+      ),
       child: Padding(
         padding: const EdgeInsets.only(top: 50),
-        child: Obx(()=> Column(
+        child: Obx(() => Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 320),
+              padding: const EdgeInsets.only(left: 330),
               child: Container(
                 height: MediaQuery.of(context).size.height / 14,
-                width: MediaQuery.of(context).size.width/4,
+                width: MediaQuery.of(context).size.width / 5,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(60),
@@ -41,40 +40,46 @@ class SettingTop extends StatelessWidget {
                   color: kWhiteColor,
                 ),
                 child: TextButton(
-                  onPressed: () {
-                    authController.logout();
+                  onPressed: () async {
+                    await authController.logout();
                   },
-                  child: const Text(
-                    'Logout',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.5),
+                  child: const Icon(
+                    Icons.logout,
+                    color: kPrimaryColor,
+                    size: 26,
                   ),
                 ),
               ),
             ),
-            const ProfileImagePicker(),
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: authController.userModel.value.profileImage != null &&
+                  authController.userModel.value.profileImage!.isNotEmpty
+                  ? NetworkImage(authController.userModel.value.profileImage!)
+                  : const AssetImage('assets/images/doctor.png')
+              as ImageProvider, // Fallback to default image
+            ),
             const SizedBox(height: 10),
             Flexible(
               child: Text(
                 authController.userModel.value.name ?? "Loading...",
                 style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: kWhiteColor),
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: kWhiteColor,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             Text(
-              authController.userModel.value.speciality ?? "Speciality",
+              authController.userModel.value.speciality ?? "",
               style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: kWhiteColor),
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: kWhiteColor,
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 100),
               child: Row(
@@ -117,7 +122,7 @@ class SettingTop extends StatelessWidget {
               ),
             )
           ],
-        ),),
+        )),
       ),
     );
   }

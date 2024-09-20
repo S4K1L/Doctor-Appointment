@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../Controller/auth_controller.dart';
 import '../../Theme/colors.dart';
 import '../../utils/profile_image_picker.dart';

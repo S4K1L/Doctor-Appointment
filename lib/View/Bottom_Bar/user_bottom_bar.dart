@@ -5,6 +5,8 @@ import '../Pages/Doctor_Panel/Doctor_Request/doctor_request.dart';
 import '../Pages/Doctor_Panel/Doctor_Setting/doctor_setting.dart';
 import '../Pages/Home/home.dart';
 import '../Pages/Schedule/schedule.dart';
+import '../Pages/User_Panel/User_Setting/user_setting.dart';
+import '../Pages/User_Panel/message.dart';
 
 class UserBottomBar extends StatefulWidget {
   const UserBottomBar({super.key});
@@ -17,9 +19,9 @@ class _BottomBarState extends State<UserBottomBar> {
   int indexColor = 0;
   List<Widget> screens = [
     const HomeScreen(),
-    DoctorRequest(),
+    const MessageScreen(),
     ScheduleScreen(),
-    const DoctorSetting(),
+    const UserSetting(),
   ];
 
   @override

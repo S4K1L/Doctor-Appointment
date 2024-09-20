@@ -55,13 +55,15 @@ class AuthController extends GetxController {
     }
   }
 
-  // Logout method
+// Logout method
   Future<void> logout() async {
     try {
       if (_auth.currentUser != null) {
+        // Sign out the current user from Firebase
         await _auth.signOut();
         userModel.value = UserModel();
-        Get.to(()=> const LoginScreen(),transition: Transition.rightToLeft);
+        // Redirect to the login screen and remove all previous screens from the stack
+        Get.offAll(() => const LoginScreen(), transition: Transition.rightToLeft);
       } else {
         if (kDebugMode) {
           print("No user is currently signed in");
@@ -71,9 +73,16 @@ class AuthController extends GetxController {
       if (kDebugMode) {
         print("Error logging out: $e");
       }
+
+      // Optionally, show an error message to the user using GetX snackbar
+      Get.snackbar('Error', 'An error occurred while logging out. Please try again.');
+
+      // Re-throw the error if you want further error handling in higher levels of the app
       rethrow;
     }
   }
+
+
 
   // Fetch all doctors where role = doctor
   Future<void> fetchDoctors() async {

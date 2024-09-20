@@ -50,7 +50,7 @@ class DoctorList extends StatelessWidget {
         }).toList();
 
         return Padding(
-          padding: const EdgeInsets.only(left: 10, right: 20, bottom: 20),
+          padding: const EdgeInsets.only(left: 10, right: 20, bottom: 20,top: 10),
           child: Row(
             children: filteredDoctors.map((doctor) {
               return Padding(
@@ -76,57 +76,79 @@ class DoctorList extends StatelessWidget {
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height / 3.2,
-                    width: MediaQuery.of(context).size.width / 2.2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.grey[200],
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
+                width: MediaQuery.of(context).size.width / 2.2,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),  // Rounded corners for the card
+                  color: Colors.white,  // Set background color as white to match the image
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),  // Shadow effect
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        doctor.profileImage != null &&
-                                doctor.profileImage!.isNotEmpty
-                            ? Image.network(
-                                doctor.profileImage!,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset('assets/images/logo.png'),
-                        const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, top: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),  // Match the rounded corners of the top part
+                        topRight: Radius.circular(30),
+                      ),
+                      child: doctor.profileImage != null &&
+                          doctor.profileImage!.isNotEmpty
+                          ? Image.network(
+                        doctor.profileImage!,
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height / 5,  // Adjust height for proper image size
+                        width: double.infinity,  // Full width of the card
+                      )
+                          : Image.asset(
+                        'assets/images/logo.png',
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height / 5,
+                        width: double.infinity,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            doctor.name ?? 'Loading',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            doctor.speciality ?? 'Speciality',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          Row(
                             children: [
-                              Text(
-                                doctor.name ?? 'Loading',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              const Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                                size: 16,
                               ),
                               Text(
-                                doctor.speciality ?? 'Speciality',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                doctor.bio ?? 'Bio',
-                                style: const TextStyle(fontSize: 16),
+                                doctor.rating?.toString() ?? '4.9',
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+              ),
+              ),
               );
             }).toList(),
           ),
